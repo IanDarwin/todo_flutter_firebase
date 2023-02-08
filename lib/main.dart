@@ -67,13 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
             appBar: AppBar(title: Text('Tasks')),
             body: Column(children:
               snapshot.data!.map((task) => ListTile(
-                leading: Icon(Icons.check_box),
+                leading: const Icon(Icons.check_box_outline_blank),
                   title: Text(task.name),
                 subtitle: Text(task.description??"(No details)"),
                 trailing: Wrap(children: [
-                  Icon(Icons.edit),
-                  Icon(Icons.copy),
-                  Icon(Icons.delete)
+                  const Icon(Icons.edit),
+                  const Icon(Icons.copy),
+                  const Icon(Icons.delete, color: Colors.red),
                 ]),
               ))
                 .toList()),
