@@ -64,8 +64,19 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           // Else we have data!
           return Scaffold(
-            body: Center(child: Text("Data: ${snapshot.data}")),
-            // XXX NEEDS A REAL BODY!
+            appBar: AppBar(title: Text('Tasks')),
+            body: Column(children:
+              snapshot.data!.map((task) => ListTile(
+                leading: Icon(Icons.check_box),
+                  title: Text(task.name),
+                subtitle: Text(task.description??"(No details)"),
+                trailing: Wrap(children: [
+                  Icon(Icons.edit),
+                  Icon(Icons.copy),
+                  Icon(Icons.delete)
+                ]),
+              ))
+                .toList()),
             floatingActionButton: FloatingActionButton(
               onPressed: () => debugPrint("FAB"),
               tooltip: 'Increment',
