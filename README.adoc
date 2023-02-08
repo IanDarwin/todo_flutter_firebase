@@ -2,6 +2,8 @@
 
 TodoMore meets Flutter and Firebase
 
+Note: check out as todo_flutter_firebase so flutter api doesn't get angry about the name.
+
 As usual, not interoperable with other ToDoMore modules. 
 Thinking about a migration path for ya, for later.
 
