@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           if (snapshot.data == null) {
             return const Center(
-                child: Text("Internal error: Could not find any tasks",
+                child: Text("Internal error: Could not get task list",
                     textScaleFactor: 1.5)
             );
           }
