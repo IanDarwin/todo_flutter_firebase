@@ -1,0 +1,7 @@
+= Todo Flutter Firebase
+
+TodoMore meets Flutter and Firebase
+
+As usual, not interoperable with other ToDoMore modules. 
+Thinking about a migration path for ya, for later.
+
