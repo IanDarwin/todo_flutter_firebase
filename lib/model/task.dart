@@ -3,6 +3,7 @@ import 'dart:convert';
 class Task {
 	String name;	// what to do
 	String? description; // more detailed
+	bool completed = false;
 	String? context;
 	DateTime? deadline;
 

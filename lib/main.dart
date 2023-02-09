@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_flutter_firebase/model/task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_flutter_firebase/services/todo.dart';
+import 'edit_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -67,8 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
             appBar: AppBar(title: Text('Tasks')),
             body: Column(children:
               snapshot.data!.map((task) => ListTile(
-                leading: const Icon(Icons.check_box_outline_blank),
-                  title: Text(task.name),
+                leading: Checkbox(
+                    value: task.completed,
+                    onChanged: (val) => task.completed = val!,
+                ),
+                title: Text(task.name),
                 subtitle: Text(task.description??"(No details)"),
                 trailing: Wrap(children: [
                   const Icon(Icons.edit),
@@ -78,7 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ))
                 .toList()),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => debugPrint("FAB"),
+              onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => (EditPage(Task("T.B.A."))))),
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),
