@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'model/task.dart';
@@ -94,6 +95,10 @@ class EditPageState extends State<EditPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         debugPrint("Save/Update(${widget.task})");
+			                  FirebaseFirestore.instance.collection('todos')
+		              	    .add(widget.task.toJson())
+			                  .then((_) => print('Added'))
+			                	.catchError((error) => print('Add failed: $error'));
                         Navigator.pop(context, widget.task);
                       } else {
                         FocusScope.of(context).requestFocus(_focusNode);

@@ -14,6 +14,13 @@ class Task {
 
 	static const String projectTag = '+', contextTag = '@';
 
+	Map<String, String> toJson() {
+		return {
+			"name": name,
+			"description": description!
+		};
+	}
+
 	static Task fromJson(String json) {
 		Map<String, dynamic> map = jsonDecode(json);
 		return Task.fromMap(map);
