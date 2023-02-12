@@ -66,41 +66,45 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           return Scaffold(
             appBar: AppBar(title: const Text('Tasks')),
-            body: Column(children:
-              snapshot.data!.map((task) => ListTile(
-                leading: Checkbox(
-                    value: task.completed,
-                    onChanged: (val) => task.completed = val!,
+            body:
+            snapshot.data!.isEmpty ?
+            const Center(child: Text("No tasks left! Add more with the + button",
+                textScaleFactor: 1.3)) :
+            Column(children:
+            snapshot.data!.map((task) => ListTile(
+              leading: Checkbox(
+                value: task.completed,
+                onChanged: (val) => task.completed = val!,
+              ),
+              title: Text(task.name),
+              subtitle: Text(task.description??"(No details)"),
+              trailing: Wrap(children: [
+                IconButton(
+                  constraints: const BoxConstraints(maxWidth: 40),
+                  icon: const Icon(Icons.edit),
+                  onPressed: () { print("Edit"); },
                 ),
-                title: Text(task.name),
-                subtitle: Text(task.description??"(No details)"),
-                trailing: Wrap(children: [
-                  IconButton(
-                    constraints: const BoxConstraints(maxWidth: 40),
-                    icon: const Icon(Icons.edit),
-                    onPressed: () { print("Edit"); },
-                  ),
-                  IconButton(
-                    constraints: const BoxConstraints(maxWidth: 40),
-                    icon: const Icon(Icons.copy),
-                    onPressed: () { print("Copy"); },
-                  ),
-                  IconButton(
-                    constraints: const BoxConstraints(maxWidth: 40),
-                    icon: const Icon(Icons.delete),
-                    color: Colors.red,
-                    onPressed: () {
-                      print("Delete");
-                      var doc2del = FirebaseFirestore.instance.collection('todos').doc(task.id);
-                      doc2del.delete().then(
-                        (doc)=>print("Doc $doc2del deleted"),
+                IconButton(
+                  constraints: const BoxConstraints(maxWidth: 40),
+                  icon: const Icon(Icons.copy),
+                  onPressed: () { print("Copy"); },
+                ),
+                IconButton(
+                  constraints: const BoxConstraints(maxWidth: 40),
+                  icon: const Icon(Icons.delete),
+                  color: Colors.red,
+                  onPressed: () {
+                    print("Delete");
+                    var doc2del = FirebaseFirestore.instance.collection('todos').doc(task.id);
+                    doc2del.delete().then(
+                            (doc)=>print("Doc $doc2del deleted"),
                         onError: (e)=>print("Deletion of $task failed with $e")
                     );
-                    },
-                  ),
-                ]),
-              ))
-                  .toList()),
+                  },
+                ),
+              ]),
+            ))
+                .toList()),
             floatingActionButton: FloatingActionButton(
               onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => (EditPage(Task(""))))),
