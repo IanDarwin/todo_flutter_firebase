@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_flutter_firebase/model/task.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -65,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           // Else we have data!
           return Scaffold(
-            appBar: AppBar(title: Text('Tasks')),
+            appBar: AppBar(title: const Text('Tasks')),
             body: Column(children:
               snapshot.data!.map((task) => ListTile(
                 leading: Checkbox(
@@ -75,12 +76,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text(task.name),
                 subtitle: Text(task.description??"(No details)"),
                 trailing: Wrap(children: [
-                  const Icon(Icons.edit),
-                  const Icon(Icons.copy),
-                  const Icon(Icons.delete, color: Colors.red),
+                  IconButton(
+                    constraints: const BoxConstraints(maxWidth: 40),
+                    icon: const Icon(Icons.edit),
+                    onPressed: () { print("Edit"); },
+                  ),
+                  IconButton(
+                    constraints: const BoxConstraints(maxWidth: 40),
+                    icon: const Icon(Icons.copy),
+                    onPressed: () { print("Copy"); },
+                  ),
+                  IconButton(
+                    constraints: const BoxConstraints(maxWidth: 40),
+                    icon: const Icon(Icons.delete),
+                    color: Colors.red,
+                    onPressed: () {
+                      print("Delete");
+                      var doc2del = FirebaseFirestore.instance.collection('todos').doc(task.name);
+                      doc2del.delete().then(
+                        (doc)=>print("Doc $doc2del deleted"),
+                        onError: (e)=>print("Deletion of $task failed with $e")
+                    );
+                    },
+                  ),
                 ]),
               ))
-                .toList()),
+                  .toList()),
             floatingActionButton: FloatingActionButton(
               onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => (EditPage(Task("T.B.A."))))),
