@@ -64,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     textScaleFactor: 1.5)
             );
           }
-          // Else we have data!
           return Scaffold(
             appBar: AppBar(title: const Text('Tasks')),
             body: Column(children:
@@ -92,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.red,
                     onPressed: () {
                       print("Delete");
-                      var doc2del = FirebaseFirestore.instance.collection('todos').doc(task.name);
+                      var doc2del = FirebaseFirestore.instance.collection('todos').doc(task.id);
                       doc2del.delete().then(
                         (doc)=>print("Doc $doc2del deleted"),
                         onError: (e)=>print("Deletion of $task failed with $e")
@@ -104,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   .toList()),
             floatingActionButton: FloatingActionButton(
               onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => (EditPage(Task("T.B.A."))))),
+                  builder: (context) => (EditPage(Task(""))))),
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),

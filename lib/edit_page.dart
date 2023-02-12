@@ -93,10 +93,15 @@ class EditPageState extends State<EditPage> {
                 ElevatedButton(
                     child: const Text("Save/Update"),
                     onPressed: () {
+
+                      // Make sure it has an ID!
+                      widget.task.id ??= widget.task.name.hashCode.toString();
+
                       if (_formKey.currentState!.validate()) {
                         debugPrint("Save/Update(${widget.task})");
 			                  FirebaseFirestore.instance.collection('todos')
-		              	    .add(widget.task.toJson())
+		              	    .doc(widget.task.id)
+                        .set(widget.task.toJson())
 			                  .then((_) => print('Added'))
 			                	.catchError((error) => print('Add failed: $error'));
                         Navigator.pop(context, widget.task);

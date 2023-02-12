@@ -8,5 +8,7 @@ class FirebaseService {
         .collection("todos")
         .snapshots()
         .map((snap) =>
-          snap.docs.map((doc) => Task.fromMap(doc.data())).toList());
+          snap.docs.map(
+                  (doc) => Task.fromMap(doc.data())
+          ).toList());
 }
