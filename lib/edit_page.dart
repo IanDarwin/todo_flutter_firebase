@@ -11,11 +11,11 @@ class EditPage extends StatefulWidget {
   EditPageState createState() => EditPageState();
 }
 
-Map<String,int> prioritiesMap = {
-	"High": 5,
-	"Medium": 3,
-	"Low": 1,
-}
+final priorities = {
+  "High":5,
+  "Medium":3,
+  "Low":1};
+
 
 var categories = [
   "Gardening",
@@ -78,13 +78,13 @@ class EditPageState extends State<EditPage> {
                   labelText: "Priority",
                 ),
                 isExpanded: true,
-                items: prioritiesMap.forEach((String prioName, int priority) {
+                items: priorities.keys.map((String prioName) {
                   return DropdownMenuItem(
-                    value: priority,
+                    value: priorities[prioName],
                     child: Text(prioName),
                   );
                 }).toList(),
-                onChanged: (value) => { /*XXX*/ },
+                onChanged: (value) => { widget.task.priority = value! },
               ),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
@@ -99,7 +99,7 @@ class EditPageState extends State<EditPage> {
                     child: Text(cat),
                   );
                 }).toList(),
-                onChanged: (value) => { /*XXX*/ },
+                onChanged: (value) => { widget.task.category = value },
                 validator: (s) => s == null || s == 'Required' ? "Category required" : null,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.end,

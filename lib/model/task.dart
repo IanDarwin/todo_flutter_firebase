@@ -3,13 +3,13 @@ import 'dart:convert';
 class Task {
 	String? id;
 	String name;	// what to do
-	int priority;	// 5 = Max, 3 = Medium, 1 = low
+	int? priority;	// 5 = Max, 3 = Medium, 1 = low
 	String? description; // more detailed
 	bool? completed = false;
-	String? context;
+	String? category;
 	DateTime? deadline;
 
-	Task(this.name, this.priority, {this.id, this.description, this.context, this.completed, this.deadline} );
+	Task(this.name, {this.id, this.description, this.priority, this.category, this.completed, this.deadline} );
 
 	@override
 	toString() => "Task($name)";
@@ -22,6 +22,8 @@ class Task {
 			"name": name,
 			"description": description == null ? "" : description!,
 			"completed": completed == null ? "false" : (completed == true).toString(),
+			"category" : category!,
+			"priority" : priority!.toString(),
 		};
 	}
 
@@ -31,12 +33,12 @@ class Task {
 	}
 
 	static Task fromMap(Map m) {
-		print("Task.fromMap($m)");
 		return Task(
-			  m['name'],
+			m['name'],
 			id: m['id'],
 			description: m['description'],
-			  context: m['context'],
+			category: m['category'],
+			priority: m['priority'] != null ? int.parse(m['priority']) : 3,
 			completed: m['completed'] == 'true',
 		);
 	}

@@ -6,7 +6,7 @@ class FirebaseService {
   static Stream<List<Task>> getTasks() =>
       FirebaseFirestore.instance
         .collection("todos")
-		.orderBy("priority").orderBy("name"),
+		    .orderBy("priority", descending: true).orderBy("name")
         .snapshots()
         .map((snap) =>
           snap.docs.map(

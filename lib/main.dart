@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_flutter_firebase/model/task.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:todo_flutter_firebase/services/todo.dart';
+import 'package:todo_flutter_firebase/services/todos_service.dart';
 import 'edit_page.dart';
 import 'firebase_options.dart';
 
@@ -39,6 +39,14 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+final colors = [
+  Colors.red, // 0 - not in use
+  Colors.green.shade100, // 1 - Low
+  Colors.red, // 2 - not in use
+  Colors.amber.shade100, // 3 - Med
+  Colors.red, // 4 - not in use
+  Colors.red.shade200, //5 - High
+];
 
 class _MyHomePageState extends State<MyHomePage> {
 
@@ -70,8 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
             snapshot.data!.isEmpty ?
             const Center(child: Text("No tasks left! Add more with the + button",
                 textScaleFactor: 1.3)) :
-            Column(children:
+            ListView(children:
             snapshot.data!.map((task) => ListTile(
+              tileColor: colors[task.priority!],
               leading: Checkbox(
                 value: task.completed,
                 onChanged: (val) => task.completed = val!,
