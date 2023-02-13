@@ -3,12 +3,13 @@ import 'dart:convert';
 class Task {
 	String? id;
 	String name;	// what to do
+	int priority;	// 5 = Max, 3 = Medium, 1 = low
 	String? description; // more detailed
 	bool? completed = false;
 	String? context;
 	DateTime? deadline;
 
-	Task(this.name, {this.id, this.description, this.context, this.completed, this.deadline} );
+	Task(this.name, this.priority, {this.id, this.description, this.context, this.completed, this.deadline} );
 
 	@override
 	toString() => "Task($name)";

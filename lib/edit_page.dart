@@ -11,6 +11,12 @@ class EditPage extends StatefulWidget {
   EditPageState createState() => EditPageState();
 }
 
+Map<String,int> prioritiesMap = {
+	"High": 5,
+	"Medium": 3,
+	"Low": 1,
+}
+
 var categories = [
   "Gardening",
   "Work",
@@ -66,6 +72,20 @@ class EditPageState extends State<EditPage> {
                     ),
                 ),
               ]),
+              DropdownButtonFormField<int>(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Priority",
+                ),
+                isExpanded: true,
+                items: prioritiesMap.forEach((String prioName, int priority) {
+                  return DropdownMenuItem(
+                    value: priority,
+                    child: Text(prioName),
+                  );
+                }).toList(),
+                onChanged: (value) => { /*XXX*/ },
+              ),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
