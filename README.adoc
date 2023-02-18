@@ -9,5 +9,10 @@ Thinking about a migration path for ya, for later.
 
 You have to create a Firebase project on the Firebase console and use that to initialize this project - that will create the one file that is missing from the repo (since it is tied to my private Google account).
 
-*Incomplete* - lacks the "Add" function, and the edit/copy/delete icons on the list view aren't active yet. Really just wanted to see if I could get Firebase to download and display some data in one evening.
+== ToDo on the Todo
+
+* copy icon on the list view isn't active yet
+* the Delete doesn't have Undo
+* No TodoText import/export
+* Hard-coded list of Contexts
 
