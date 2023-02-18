@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_flutter_firebase/model/task.dart';
@@ -100,7 +102,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 IconButton(
                   constraints: const BoxConstraints(maxWidth: 40),
                   icon: const Icon(Icons.copy),
-                  onPressed: () { debugPrint("Copy"); },
+                  onPressed: () {
+                    debugPrint("Copy");
+                    var task2 = task;
+                    task2.id = Random().nextInt(2^32 - 1).toString();
+                    FirebaseFirestore.instance
+                        .collection('todos')
+                        .doc(task2.id)
+                        .set(task2.toJson());
+                    },
                 ),
                 IconButton(
                   constraints: const BoxConstraints(maxWidth: 40),

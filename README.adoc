@@ -11,8 +11,7 @@ You have to create a Firebase project on the Firebase console and use that to in
 
 == ToDo on the Todo
 
-* copy icon on the list view isn't active yet
-* the Delete doesn't have Undo
+* the Delete function doesn't have Undo
 * No TodoText import/export
 * Hard-coded list of Contexts
 
