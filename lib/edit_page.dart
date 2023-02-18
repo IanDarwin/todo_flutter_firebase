@@ -17,11 +17,11 @@ final priorities = {
   "Low":1};
 
 
-var categories = [
-  "Gardening",
+var contexts = [
+  "Home",
   "Work",
-  "Leisure",
-  "Reading",
+  "Phone",
+  "Email",
 ];
 
 class EditPageState extends State<EditPage> {
@@ -65,8 +65,9 @@ class EditPageState extends State<EditPage> {
                       border: OutlineInputBorder(),
                       labelText: "Description",
                     ),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (s) => s!.isEmpty ? 'Details required' : null,
+                    initialValue: widget.task.description,
+                    //autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //validator: (s) => s!.isEmpty ? 'Details required' : null,
                     onChanged: (s) => widget.task.description = s,
                     onSaved: (s) => widget.task.description = s,
                     ),
@@ -84,21 +85,22 @@ class EditPageState extends State<EditPage> {
                     child: Text(prioName),
                   );
                 }).toList(),
+                value: widget.task.priority,
                 onChanged: (value) => { widget.task.priority = value! },
               ),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: "Category",
+                  labelText: "Context",
                 ),
-                // value: _selectedCategory,
                 isExpanded: true,
-                items: categories.map((String cat) {
+                items: contexts.map((String cat) {
                   return DropdownMenuItem(
                     value: cat,
                     child: Text(cat),
                   );
                 }).toList(),
+                value: widget.task.category,
                 onChanged: (value) => { widget.task.category = value },
                 validator: (s) => s == null || s == 'Required' ? "Category required" : null,
               ),
