@@ -91,12 +91,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 IconButton(
                   constraints: const BoxConstraints(maxWidth: 40),
                   icon: const Icon(Icons.edit),
-                  onPressed: () { print("Edit"); },
+                  onPressed: () {
+                    debugPrint("Edit");
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => (EditPage(task))));
+                  },
                 ),
                 IconButton(
                   constraints: const BoxConstraints(maxWidth: 40),
                   icon: const Icon(Icons.copy),
-                  onPressed: () { print("Copy"); },
+                  onPressed: () { debugPrint("Copy"); },
                 ),
                 IconButton(
                   constraints: const BoxConstraints(maxWidth: 40),
