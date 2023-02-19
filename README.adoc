@@ -12,6 +12,7 @@ You have to create a Firebase project on the Firebase console and use that to in
 == ToDo on the Todo
 
 * the Delete function doesn't have Undo
-* No TodoText import/export
+* import fails with permission. Export not written
+* Settings page is a placeholder.
 * Hard-coded list of Contexts
 
