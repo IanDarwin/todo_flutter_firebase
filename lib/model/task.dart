@@ -12,7 +12,14 @@ class Task {
 	Task(this.name, {this.id, this.description, this.priority, this.category, this.completed, this.deadline} );
 
 	@override
-	toString() => "Task($name)";
+	toString() {
+		var ret = StringBuffer("Task($name");
+		if (category != null) {
+			ret.write(" @$category");
+		}
+		ret.write(")");
+		return ret.toString();
+	}
 
 	static const String projectTag = '+', contextTag = '@';
 
@@ -43,4 +50,17 @@ class Task {
 		);
 	}
 
+	@override
+	operator==(other) {
+		if (other is! Task) {
+			return false;
+		}
+		if (name != other.name) {
+			return false;
+		}
+		if (category == null || other.category == null || category != other.category) {
+			return false;
+		}
+		return true;
+	}
 }
