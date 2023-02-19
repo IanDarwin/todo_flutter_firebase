@@ -24,12 +24,12 @@ flutter_icons:
   android: true
   ios: true
   remove-alpha_ios: true
-  image_path: "img/logo.png"
+  image_path: "images/logo.png"
 
 flutter:
   uses-material-design: true
-  # assets:
-  #   - img/*
+  assets:
+    - images/logo.png
  
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

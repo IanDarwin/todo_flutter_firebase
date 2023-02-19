@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_flutter_firebase/services/todos_service.dart';
 import 'edit_page.dart';
 import 'firebase_options.dart';
+import 'nav_drawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           return Scaffold(
             appBar: AppBar(title: const Text('Tasks')),
+            drawer: const NavDrawer(),
             body:
             snapshot.data!.isEmpty ?
             const Center(child: Text("No tasks left! Add more with the + button",

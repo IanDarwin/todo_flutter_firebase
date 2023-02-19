@@ -50,13 +50,13 @@ class Import {
 					t.priority = 3;
 				}
 			}
-			String? dates = m![GROUP_1OR2_DATES];
+			String? dates = m[GROUP_1OR2_DATES];
 			// XXX Must handle 2 dates
 			if (dates != null) {
 				DateTime localDate = DateTime.parse(dates);
 				// ;
 			}
-			String? rest = m![GROUP_REST];
+			String? rest = m[GROUP_REST];
 			StringBuffer nameSB = new StringBuffer(),
 					projectSB = new StringBuffer(),
 					contextSB = new StringBuffer();
@@ -65,7 +65,7 @@ class Import {
 				if (ch == '+') {
 					do {
 						projectSB.write(rest[++i]);
-					} while (i + 1 < rest!.length && ' ' != rest[i + 1]);
+					} while (i + 1 < rest.length && ' ' != rest[i + 1]);
 				} else if (ch == '@') {
 					do {
 						contextSB.write(rest[++i]);
@@ -81,6 +81,7 @@ class Import {
 			if (contextSB.length > 0) {
 				t.context = contextSB.toString();
 			}
+			t.id ??= t.name.hashCode.toString();
 			return t;
 		} else {
 			throw Exception("Task failed to parse: $str");

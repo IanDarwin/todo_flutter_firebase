@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="todomore.flutter.firebase.todo_flutter_firebase">
-   <application
-        android:label="TodoFlutterfirebase"
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
+        android:label="TodoFlutterFirebase"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
