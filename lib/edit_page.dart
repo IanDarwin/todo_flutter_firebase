@@ -14,7 +14,8 @@ class EditPage extends StatefulWidget {
 final priorities = {
   "High":5,
   "Medium":3,
-  "Low":1};
+  "Low":1
+};
 
 
 var contexts = [
@@ -22,6 +23,8 @@ var contexts = [
   "Work",
   "Phone",
   "Email",
+  "Writing",
+  "SysAdmin",
 ];
 
 class EditPageState extends State<EditPage> {
