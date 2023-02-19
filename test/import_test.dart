@@ -7,7 +7,7 @@ void main() {
   test('Import test', () {
     var input = [ "(A) Get to work @Home"];
 
-    var expected = [ Task('Get to work', category: 'Home')];
+    var expected = [ Task('Get to work', context: 'Home')];
 
     var output = Import.importTasks(input);
     for (var value in output) {

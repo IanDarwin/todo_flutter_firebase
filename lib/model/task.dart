@@ -6,16 +6,16 @@ class Task {
 	int? priority;	// 5 = Max, 3 = Medium, 1 = low
 	String? description; // more detailed
 	bool? completed = false;
-	String? category;
+	String? context;
 	DateTime? deadline;
 
-	Task(this.name, {this.id, this.description, this.priority, this.category, this.completed, this.deadline} );
+	Task(this.name, {this.id, this.description, this.priority, this.context, this.completed, this.deadline} );
 
 	@override
 	toString() {
 		var ret = StringBuffer("Task($name");
-		if (category != null) {
-			ret.write(" @$category");
+		if (context != null) {
+			ret.write(" @$context");
 		}
 		ret.write(")");
 		return ret.toString();
@@ -29,7 +29,7 @@ class Task {
 			"name": name,
 			"description": description == null ? "" : description!,
 			"completed": completed == null ? "false" : (completed == true).toString(),
-			"category" : category!,
+			"context" : context!,
 			"priority" : priority!.toString(),
 		};
 	}
@@ -44,7 +44,7 @@ class Task {
 			m['name'],
 			id: m['id'],
 			description: m['description'],
-			category: m['category'],
+			context: m['context'],
 			priority: m['priority'] != null ? int.parse(m['priority']) : 3,
 			completed: m['completed'] == 'true',
 		);
@@ -58,7 +58,7 @@ class Task {
 		if (name != other.name) {
 			return false;
 		}
-		if (category == null || other.category == null || category != other.category) {
+		if (context == null || other.context == null || context != other.context) {
 			return false;
 		}
 		return true;

@@ -103,8 +103,8 @@ class EditPageState extends State<EditPage> {
                     child: Text(cat),
                   );
                 }).toList(),
-                value: widget.task.category,
-                onChanged: (value) => { widget.task.category = value },
+                value: widget.task.context,
+                onChanged: (value) => { widget.task.context = value },
                 validator: (s) => s == null || s == 'Required' ? "Category required" : null,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.end,

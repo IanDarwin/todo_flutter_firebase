@@ -79,7 +79,7 @@ class Import {
 				var project = projectSB.toString();
 			}
 			if (contextSB.length > 0) {
-				t.category = contextSB.toString();
+				t.context = contextSB.toString();
 			}
 			return t;
 		} else {
