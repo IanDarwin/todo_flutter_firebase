@@ -51,16 +51,27 @@ class Task {
 	}
 
 	@override
-	operator==(other) {
-		if (other is! Task) {
-			return false;
-		}
-		if (name != other.name) {
-			return false;
-		}
-		if (context == null || other.context == null || context != other.context) {
-			return false;
-		}
-		return true;
-	}
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Task &&
+          runtimeType == other.runtimeType &&
+          // id == other.id &&
+          name == other.name &&
+          // priority == other.priority &&
+          // description == other.description &&
+          // completed == other.completed &&
+          context == other.context // &&
+          // deadline == other.deadline
+	        ;
+
+  @override
+  int get hashCode =>
+      // id.hashCode ^
+      name.hashCode ^
+      // priority.hashCode ^
+      // description.hashCode ^
+      // completed.hashCode ^
+      context.hashCode // ^
+      // deadline.hashCode
+			;
 }

@@ -5,14 +5,23 @@ import 'package:todo_flutter_firebase/services/import.dart';
 
 void main() {
   test('Import test', () {
-    var input = [ "(A) Get to work @Home"];
 
-    var expected = [ Task('Get to work', context: 'Home')];
+    List<String> input = [
+      "(A) Get to work @Home",
+      "Bleah bleah bleah",
+    ];
+
+    var expected = [
+      Task('Get to work', context: 'Home'),
+      Task("Bleah bleah bleah"),
+    ];
 
     var output = Import.importTasks(input);
-    for (var value in output) {
+
+    for (int i = 0; i < input.length; i++) {
+      var value = output[i];
       print(value);
-      expect(expected[0], value);
+      expect(expected[i], value);
     }
   });
 }
