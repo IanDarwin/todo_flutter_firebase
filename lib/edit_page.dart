@@ -48,11 +48,11 @@ class EditPageState extends State<EditPage> {
             children: <Widget>[
               Row(children: [
                 Expanded(child:TextFormField(maxLength: 256,
-                    //focusNode: focusNode,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Name",
                     ),
+                    textCapitalization: TextCapitalization.sentences,
                     initialValue: widget.task.name,
                     autofocus: true,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -68,6 +68,7 @@ class EditPageState extends State<EditPage> {
                       border: OutlineInputBorder(),
                       labelText: "Description",
                     ),
+                    textCapitalization: TextCapitalization.sentences,
                     initialValue: widget.task.description,
                     //autovalidateMode: AutovalidateMode.onUserInteraction,
                     //validator: (s) => s!.isEmpty ? 'Details required' : null,
