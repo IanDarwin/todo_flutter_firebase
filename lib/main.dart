@@ -93,16 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               title: Text(task.name),
               subtitle: Text(task.description??"(No details)"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => (EditPage(task))));
+              },
               trailing: Wrap(children: [
-                IconButton(
-                  constraints: const BoxConstraints(maxWidth: 40),
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    debugPrint("Edit");
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => (EditPage(task))));
-                  },
-                ),
                 IconButton(
                   constraints: const BoxConstraints(maxWidth: 40),
                   icon: const Icon(Icons.copy),
