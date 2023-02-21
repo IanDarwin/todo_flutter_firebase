@@ -87,9 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ListView(children:
             snapshot.data!.map((task) => ListTile(
               tileColor: colors[task.priority!],
-              leading: Checkbox(
-                value: task.completed,
-                onChanged: (val) => task.completed = val!,
+              leading: CircleAvatar(
+                child: Text(task.context==null?"?":task.context![0]),
               ),
               title: Text(task.name),
               subtitle: Text(task.description??"(No details)"),
