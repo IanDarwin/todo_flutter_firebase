@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,14 +14,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await Directory("/sdcard/Download/todo_flutter_firebase").create();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -88,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
             snapshot.data!.map((task) => ListTile(
               tileColor: colors[task.priority!],
               leading: CircleAvatar(
-                child: Text(task.context==null?"?":task.context![0]),
+                child: createAvatarChild(task),
               ),
               title: Text(task.name),
               subtitle: Text(task.description??"(No details)"),
@@ -115,11 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(Icons.delete),
                   color: Colors.red,
                   onPressed: () {
-                    print("Delete");
                     var doc2del = FirebaseFirestore.instance.collection('todos').doc(task.id);
                     doc2del.delete().then(
-                            (doc)=>print("Doc $doc2del deleted"),
-                        onError: (e)=>print("Deletion of $task failed with $e")
+                            (doc)=>debugPrint("Doc $doc2del deleted"),
+                        onError: (e)=>debugPrint("Deletion of $task failed with $e")
                     );
                   },
                 ),
@@ -135,5 +132,30 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }
     );
+  }
+  
+  static const knownContexts = [
+    "Home", "Work", "Phone", "Development",
+  ];
+  static const knownIcons = [
+    Icon(Icons.home),
+    Icon(Icons.business),
+    Icon(Icons.phone),
+    Icon(Icons.computer_rounded),
+  ];
+  
+  Widget createAvatarChild(Task t) {
+    for (int i = 0; i < knownContexts.length; i++) {
+      if (knownContexts[i] == t.context) {
+        return knownIcons[i];
+      }
+    }
+    if (t.context == null) {
+      return const Text("?", textScaleFactor: 1.4);
+    }
+    // E.g. Turn "SysAdmin" into "SA"
+    var capsOnly = t.context!.replaceAll(RegExp('[^A-Z]+'), '');
+    return Text(capsOnly.isNotEmpty ? capsOnly : t.context![0],
+        textScaleFactor: 1.4);
   }
 }
