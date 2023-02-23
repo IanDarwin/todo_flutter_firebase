@@ -8,8 +8,8 @@ class Import {
 	static final regex =
 	  RegExp(r'(x\s*)?(\([A-Z]\)\s*)?(\d{4}-\d{2}-\d{2}\s*){0,2}(.*)');
 
-			static final int GROUP_COMPLETED = 1;
-			static final int GROUP_PRIO = 2;
+	static final int GROUP_COMPLETED = 1;
+	static final int GROUP_PRIO = 2;
 	static final int GROUP_1OR2_DATES = 3;
 	static final int GROUP_REST = 4;
 
@@ -22,44 +22,45 @@ class Import {
 	}
 	
 	static Task importTask(String str) {
+		print("importTask($str)");
 		RegExpMatch? m = regex.firstMatch(str);
+
+		if (m == null) {
+			throw Exception("** ERROR: ${str} didn't parse");
+		}
 		Task t = Task("");
-		if (m != null) {
 			String? completed = m.group(GROUP_COMPLETED);
 			if (completed != null && completed.startsWith("x")) {
 				// t.complete();
 			}
 			String? prio = m.group(GROUP_PRIO);
 			if (prio != null) {
-				if (prio.startsWith("(")) {
+				if (prio!.startsWith("(")) {
 					switch (prio[1]) {
 						case 'A':
 							t.priority = 5;
 							break;
 						case 'C':
 							t.priority = 3;
-							;
 							break;
 						case "E":
 							t.priority = 1;
 							break;
 						default:
-							throw new Exception("Unknown Priot");
+							throw Exception("Unknown Priority");
 					}
 				} else { // Keyword given?
 					t.priority = 3;
 				}
-			}
 			String? dates = m[GROUP_1OR2_DATES];
 			// XXX Must handle 2 dates
 			if (dates != null) {
 				DateTime localDate = DateTime.parse(dates);
-				// ;
 			}
 			String? rest = m[GROUP_REST];
-			StringBuffer nameSB = new StringBuffer(),
-					projectSB = new StringBuffer(),
-					contextSB = new StringBuffer();
+			StringBuffer nameSB = StringBuffer(),
+					projectSB = StringBuffer(),
+					contextSB = StringBuffer();
 			for (int i = 0; i < rest!.length; i++) {
 				var ch = rest[i];
 				if (ch == '+') {
