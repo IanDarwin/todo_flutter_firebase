@@ -135,7 +135,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   
   static const knownContexts = [
-    "Home", "Work", "Phone", "Development",
+    "Home",
+    "Work",
+    "Phone",
+    "Development",
   ];
   static const knownIcons = [
     Icon(Icons.home),
