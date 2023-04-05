@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
           return Scaffold(
-            appBar: AppBar(title: const Text('Tasks')),
+            appBar: AppBar(title: Text('Tasks (${snapshot.data!.length})')),
             drawer: const NavDrawer(),
             body:
             snapshot.data!.isEmpty ?
@@ -106,18 +106,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         .collection('todos')
                         .doc(task2.id)
                         .set(task2.toJson());
-                    },
+                  },
                 ),
                 IconButton(
                   constraints: const BoxConstraints(maxWidth: 40),
                   icon: const Icon(Icons.delete),
                   color: Colors.red,
-                  onPressed: () {
+                  onPressed: () async {
                     var doc2del = FirebaseFirestore.instance.collection('todos').doc(task.id);
-                    doc2del.delete().then(
-                            (doc)=>debugPrint("Doc $doc2del deleted"),
-                        onError: (e)=>debugPrint("Deletion of $task failed with $e")
-                    );
+                    await doc2del.delete();
+                    debugPrint("Doc $doc2del deleted");
                   },
                 ),
               ]),
