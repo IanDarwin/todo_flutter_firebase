@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:todo_flutter_firebase/services/import.dart';
 import 'package:todo_flutter_firebase/settings.dart';
+
+import 'model/task.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({super.key});
@@ -36,28 +39,8 @@ class NavDrawer extends StatelessWidget {
               leading: const Icon(Icons.settings),
               title: const Text('Import'),
               onTap: () async  {
-                // Android only, for now (sorry)
                 debugPrint("Trying import");
-				_doImport();
-			/*
-                var fileName = "/sdcard/Download/todo_flutter_firebase/todo.txt";
-                var file = File(fileName);
-                if (await Permission.storage.isPermanentlyDenied) {
-                  openAppSettings();
-                }
-                print("0");
-                if (await Permission.storage.isDenied) {
-                  await Permission.storage.request();
-                  print("1");
-                }
-                  if (await file.exists()) {
-                    print("2");
-                    Import.importTasks(await file.readAsLines());
-                  } else {
-                    debugPrint("File $fileName not found!");
-                  }
-			*/
-
+				        _doImport();
                 Navigator.of(context).pop();
               },
             ),
@@ -99,7 +82,18 @@ class NavDrawer extends StatelessWidget {
       // Open the selected file
       var newFile = await File(filePath);
 
-      Import.importTasks(await newFile.readAsLines());
+      var lines = await File(file.path!).readAsLines();
+      Import.importTasks(lines);
+      /*
+      var db = FirebaseFirestore.instance.collection('todos');
+      for (Task task in Import.importTasks(lines)){
+            db
+            .doc(task.id)
+            .set(task.toJson())
+            .then((_) => debugPrint('Added'))
+            .catchError((error) => print('Add failed: $error'));
+      }
+      */
     }
   }
 }

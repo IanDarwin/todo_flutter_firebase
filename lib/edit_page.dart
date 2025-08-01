@@ -26,6 +26,7 @@ var contexts = [
   "Development",
   "Writing",
   "SysAdmin",
+  'Default',
 ];
 
 class EditPageState extends State<EditPage> {
@@ -93,6 +94,7 @@ class EditPageState extends State<EditPage> {
                 value: widget.task.priority,
                 onChanged: (value) => { widget.task.priority = value! },
               ),
+              const SizedBox(width: 100, height: 15),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),

@@ -29,7 +29,7 @@ class Task {
 			"name": name,
 			"description": description == null ? "" : description!,
 			"completed": completed == null ? "false" : (completed == true).toString(),
-			"context" : context!,
+			"context" : context??'Default',
 			"priority" : priority!.toString(),
 		};
 	}
