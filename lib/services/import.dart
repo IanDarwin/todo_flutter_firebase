@@ -8,10 +8,10 @@ class Import {
 	static final regex =
 	  RegExp(r'(x\s*)?(\([A-Z]\)\s*)?(\d{4}-\d{2}-\d{2}\s*){0,2}(.*)');
 
-			static final int GROUP_COMPLETED = 1;
-			static final int GROUP_PRIO = 2;
-	static final int GROUP_1OR2_DATES = 3;
-	static final int GROUP_REST = 4;
+			static const int GROUP_COMPLETED = 1;
+			static const int GROUP_PRIO = 2;
+	static const int GROUP_1OR2_DATES = 3;
+	static const int GROUP_REST = 4;
 
 	static List<Task> importTasks(List<String> input) {
 		List<Task> list = [];
@@ -37,14 +37,13 @@ class Import {
 							t.priority = 5;
 							break;
 						case 'C':
-							t.priority = 3;
-							;
+							t.priority = 3; {}
 							break;
 						case "E":
 							t.priority = 1;
 							break;
 						default:
-							throw new Exception("Unknown Priot");
+							throw Exception("Unknown Priot");
 					}
 				} else { // Keyword given?
 					t.priority = 3;
@@ -57,9 +56,9 @@ class Import {
 				// ;
 			}
 			String? rest = m[GROUP_REST];
-			StringBuffer nameSB = new StringBuffer(),
-					projectSB = new StringBuffer(),
-					contextSB = new StringBuffer();
+			StringBuffer nameSB = StringBuffer(),
+					projectSB = StringBuffer(),
+					contextSB = StringBuffer();
 			for (int i = 0; i < rest!.length; i++) {
 				var ch = rest[i];
 				if (ch == '+') {

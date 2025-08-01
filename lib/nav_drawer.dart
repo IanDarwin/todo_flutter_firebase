@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:open_file/open_file.dart';
-Import 'package:file_picker/file_picker.dart'
+import 'package:file_picker/file_picker.dart';
 import 'package:todo_flutter_firebase/services/import.dart';
 import 'package:todo_flutter_firebase/settings.dart';
 
@@ -88,23 +86,20 @@ class NavDrawer extends StatelessWidget {
     final directory = await getExternalStorageDirectory();
     
     // Use the file picker to select a file
-    final result = await FilePicker.platform.pickFiles(
+    final filePickerResult = await FilePicker.platform.pickFiles(
       type: FileType.any,
       allowedExtensions: ['todotxt'],
     );
     
-    if (result != null) {
-      final file = result.files.first;
-      final filePath = '${directory.path}/${file.name}';
+    if (filePickerResult != null) {
+      final filePath = filePickerResult.files.first.toString();
+      // final filePath = '${directory?.path}/${file.name}';
       
-      // Save the selected file to the public directory
-      await file.saveTo(filePath);
-      
-      // Open the selected file using the open_file package
-      var newfile = await OpenFile.open(filePath);
+      print("filePath = $filePath");
+      // Open the selected file
+      var newFile = await File(filePath);
 
-      Import.importTasks(await newfile.readAsLines());
-
+      Import.importTasks(await newFile.readAsLines());
     }
   }
 }
