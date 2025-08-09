@@ -1,13 +1,15 @@
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_flutter_firebase/model/task.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:todo_flutter_firebase/model/task.dart';
 import 'package:todo_flutter_firebase/services/todos_service.dart';
-import 'edit_page.dart';
-import 'firebase_options.dart';
-import 'nav_drawer.dart';
+import 'package:todo_flutter_firebase/edit_page.dart';
+import 'package:todo_flutter_firebase/firebase_options.dart';
+import 'package:todo_flutter_firebase/nav_drawer.dart';
+
+import 'model/Context.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -132,30 +134,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
   
-  static const knownContexts = [
-    "Home",
-    "Work",
-    "Phone",
-    "Development",
-  ];
-  static const knownIcons = [
-    Icon(Icons.home),
-    Icon(Icons.business),
-    Icon(Icons.phone),
-    Icon(Icons.computer_rounded),
-  ];
-  
   Widget createAvatarChild(Task t) {
-    for (int i = 0; i < knownContexts.length; i++) {
-      if (knownContexts[i] == t.context) {
-        return knownIcons[i];
-      }
-    }
     if (t.context == null) {
       return const Text("?", textScaleFactor: 1.4);
     }
+    for (int i = 0; i < contexts.length; i++) {
+      if (contexts[i].name == t.context && contexts[i].icon != null) {
+        return contexts[i].icon!;
+      }
+    }
     // E.g. Turn "SysAdmin" into "SA"
-    var capsOnly = t.context!.replaceAll(RegExp('[^A-Z]+'), '');
+    var capsOnly = t.context!.replaceAll(RegExp('[^A-Z0-9]{1,2}'), '');
     return Text(capsOnly.isNotEmpty ? capsOnly : t.context![0],
         textScaleFactor: 1.4);
   }

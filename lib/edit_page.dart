@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'model/Context.dart';
 import 'model/task.dart';
 
 class EditPage extends StatefulWidget {
@@ -17,17 +18,6 @@ final priorities = {
   "Low":1
 };
 
-
-var contexts = [
-  "Home",
-  "Work",
-  "Phone",
-  "Email",
-  "Development",
-  "Writing",
-  "SysAdmin",
-  'Default',
-];
 
 class EditPageState extends State<EditPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -72,8 +62,7 @@ class EditPageState extends State<EditPage> {
                     ),
                     textCapitalization: TextCapitalization.sentences,
                     initialValue: widget.task.description,
-                    //autovalidateMode: AutovalidateMode.onUserInteraction,
-                    //validator: (s) => s!.isEmpty ? 'Details required' : null,
+                    // No validation - this one is optional,
                     onChanged: (s) => widget.task.description = s,
                     onSaved: (s) => widget.task.description = s,
                     ),
@@ -95,20 +84,20 @@ class EditPageState extends State<EditPage> {
                 onChanged: (value) => { widget.task.priority = value! },
               ),
               const SizedBox(width: 100, height: 15),
-              DropdownButtonFormField<String>(
+              DropdownButtonFormField<Context>(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Context",
                 ),
                 isExpanded: true,
-                items: contexts.map((String cat) {
+                items: contexts.map((Context cat) {
                   return DropdownMenuItem(
                     value: cat,
-                    child: Text(cat),
+                    child: Text(cat.name),
                   );
                 }).toList(),
-                value: widget.task.context,
-                onChanged: (value) => { widget.task.context = value },
+                value: Context.byName(widget.task.context??'Default'),
+                onChanged: (value) => { widget.task.context = value!.name },
                 validator: (s) => s == null || s == 'Required' ? "Category required" : null,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.end,
