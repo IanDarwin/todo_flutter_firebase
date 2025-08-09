@@ -56,7 +56,7 @@ class NavDrawer extends StatelessWidget {
               icon: Icon(Icons.info),
               applicationName:  'TodoFlutterFirebase',
               aboutBoxChildren: [
-                Text("A basic Todo List Application, using Flutter and Firebase"),
+                Text("A Todo List Application, built using Flutter and Firebase"),
               ],
             )
             ,
@@ -82,16 +82,16 @@ class NavDrawer extends StatelessWidget {
       // Open the selected file
       var lines = await File(filePath).readAsLines();
       Import.importTasks(lines);
-      /*
+
       var db = FirebaseFirestore.instance.collection('todos');
-      for (Task task in Import.importTasks(lines)){
+      for (Task task in Import.importTasks(lines)) {
             db
             .doc(task.id)
             .set(task.toJson())
             .then((_) => debugPrint('Added'))
             .catchError((error) => print('Add failed: $error'));
       }
-      */
+
     }
   }
 }
