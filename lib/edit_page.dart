@@ -108,7 +108,7 @@ class EditPageState extends State<EditPage> {
                   );
                 }).toList(),
                 value: widget.task.context,
-                onChanged: (value) => { widget.task.context = value },
+                onChanged: (value) => { widget.task.context = value! },
                 validator: (s) => s == null || s == 'Required' ? "Category required" : null,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.end,

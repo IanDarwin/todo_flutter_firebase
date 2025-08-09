@@ -7,20 +7,18 @@ void main() {
   test('Import test', () {
 
     List<String> input = [
-      "(A) Get to work @Home",
+      "(A) Get to work @Home +Bar",
       "Bleah bleah bleah",
     ];
 
     var expected = [
-      Task('Get to work', context: 'Home'),
-      Task("Bleah bleah bleah"),
+      Task('Get to work', 'Home', 'Bar'),
+      Task("Bleah", "@bleah", "+bleah"),
     ];
 
-    var output = Import.importTasks(input);
-
     for (int i = 0; i < input.length; i++) {
-      var value = output[i];
-      print(value);
+      var value = Import.importTask(input[i]);
+      print("${input[i]} => $value");
       expect(expected[i], value);
     }
   });

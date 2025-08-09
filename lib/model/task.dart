@@ -1,23 +1,38 @@
 import 'dart:convert';
 
+enum Status {
+	NEW,
+	ACTIVE,
+	DEFERRED,
+	COMPLETE;
+}
+const Status DEFAULT_STATUS = Status.NEW;
+
 class Task {
 	String? id;
-	String name;	// what to do
 	int? priority;	// 5 = Max, 3 = Medium, 1 = low
-	String? description; // more detailed
 	bool? completed = false;
-	String? context;
-	DateTime? deadline;
 
-	Task(this.name, {this.id, this.description, this.priority, this.context, this.completed, this.deadline} );
+	String name;    // what to do
+	String? description; // more detailed
+
+	// Date fields:
+	DateTime creationDate = DateTime.now(); // when you decided you had to do it
+	DateTime? completedDate; // when you actually did it
+	DateTime? dueDate;      // when to do it by
+	DateTime? modified; // tstamp (UTC!); should be LocalDateTime
+
+	// Status Fields
+	String project;    // what this task is part of
+	String context;    // where to do it
+	Status status = DEFAULT_STATUS;
+
+	Task(this.name, this.context, this.project, {this.id, this.description, this.priority,
+		this.completed, this.dueDate} );
 
 	@override
 	toString() {
-		var ret = StringBuffer("Task($name");
-		if (context != null) {
-			ret.write(" @$context");
-		}
-		ret.write(")");
+		var ret = StringBuffer("Task($name")..write(" @$context")..write(")");
 		return ret.toString();
 	}
 
@@ -41,13 +56,37 @@ class Task {
 
 	static Task fromMap(Map m) {
 		return Task(
-			m['name'],
+			m['name'], m['context'], m['project]'],
 			id: m['id'],
 			description: m['description'],
-			context: m['context'],
 			priority: m['priority'] != null ? int.parse(m['priority']) : 3,
 			completed: m['completed'] == 'true',
 		);
+	}
+
+	static final prioLetters = ['A',null,'C',null,'E'];
+
+	/// toTodoString converts to String but in todo.txt format!
+	/// A fully-fleshed-out example from todotxt.com:
+	/// x 2011-03-02 2011-03-01 Review Tim's pull request +TodoTxtTouch @github
+	/// See https://github.com/todotxt/todo.txt
+	/// @return the Task as a String in todo.txt format
+	String toTodoString() {
+		StringBuffer sb = new StringBuffer();
+		if (status == Status.COMPLETE) {
+			sb.write('x');
+			if (completedDate != null) {
+				sb..write(' ')..write(completedDate)..write(' ');
+			}
+		}
+		if (priority != null) {
+			sb..write('(')..write(prioLetters[priority!])..write(')')..write(' ');
+		}
+		sb..write(creationDate)..write(' ')..write(name);
+		sb..write(' ')..write(projectTag)..write(project);
+		sb..write(' ')..write(contextTag)..write(context);
+
+		return sb.toString();
 	}
 
 	@override

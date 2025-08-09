@@ -28,14 +28,14 @@ class Import {
 		if (m == null) {
 			throw Exception("** ERROR: ${str} didn't parse");
 		}
-		Task t = Task("");
+		Task t = Task("","","");
 			String? completed = m.group(GROUP_COMPLETED);
 			if (completed != null && completed.startsWith("x")) {
 				// t.complete();
 			}
 			String? prio = m.group(GROUP_PRIO);
 			if (prio != null) {
-				if (prio!.startsWith("(")) {
+				if (prio.startsWith("(")) {
 					switch (prio[1]) {
 						case 'A':
 							t.priority = 5;

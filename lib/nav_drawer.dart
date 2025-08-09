@@ -46,6 +46,15 @@ class NavDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.settings),
+              title: const Text('Export'),
+              onTap: () async  {
+                debugPrint("Trying export");
+                _doExport();
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () => {
                 Navigator.push(context, MaterialPageRoute(
@@ -64,6 +73,10 @@ class NavDrawer extends StatelessWidget {
     );
   }
 
+  _doExport() async {
+    print("Doing an export (someda)");
+  }
+
   _doImport() async {
     // Get the public directory path
     final directory = await getExternalStorageDirectory();
@@ -76,13 +89,10 @@ class NavDrawer extends StatelessWidget {
     
     if (filePickerResult != null) {
       final filePath = filePickerResult.files.first.toString();
-      // final filePath = '${directory?.path}/${file.name}';
-      
       print("filePath = $filePath");
-      // Open the selected file
+      // Open and read the selected file
       var newFile = await File(filePath);
-
-      var lines = await File(file.path!).readAsLines();
+      var lines = await newFile.readAsLines();
       Import.importTasks(lines);
       /*
       var db = FirebaseFirestore.instance.collection('todos');
@@ -94,6 +104,8 @@ class NavDrawer extends StatelessWidget {
             .catchError((error) => print('Add failed: $error'));
       }
       */
+    } else {
+      print("No file selected, aborting!");
     }
   }
 }

@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 .toList()),
             floatingActionButton: FloatingActionButton(
               onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => (EditPage(Task(""))))),
+                  builder: (context) => (EditPage(Task("","",""))))),
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),
