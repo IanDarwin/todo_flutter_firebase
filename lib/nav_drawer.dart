@@ -80,9 +80,7 @@ class NavDrawer extends StatelessWidget {
       
       print("filePath = $filePath");
       // Open the selected file
-      var newFile = await File(filePath);
-
-      var lines = await File(file.path!).readAsLines();
+      var lines = await File(filePath).readAsLines();
       Import.importTasks(lines);
       /*
       var db = FirebaseFirestore.instance.collection('todos');
