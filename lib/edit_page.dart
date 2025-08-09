@@ -82,6 +82,7 @@ class EditPageState extends State<EditPage> {
                 }).toList(),
                 value: widget.task.priority,
                 onChanged: (value) => { widget.task.priority = value! },
+                validator: (s) => s == null ? "Priority required" : null,
               ),
               const SizedBox(width: 100, height: 15),
               DropdownButtonFormField<Context>(
@@ -120,7 +121,7 @@ class EditPageState extends State<EditPage> {
 			                  FirebaseFirestore.instance.collection('todos')
 		              	    .doc(widget.task.id)
                         .set(widget.task.toJson())
-			                  .then((_) => print('Added'))
+			                  .then((_) => print('Saved'))
 			                	.catchError((error) => print('Add failed: $error'));
                         Navigator.pop(context, widget.task);
                       } else {
