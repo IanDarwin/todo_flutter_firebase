@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   file_picker: ^10.2.0
   firebase_core: ^4.0.0
+  flutter_settings_screens: ^0.3.4
   cloud_firestore: ^6.0.0
   permission_handler: ^12.0.1
   path_provider: any
