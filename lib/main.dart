@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     textScaleFactor: 1.5)
             );
           }
+          const double maxWidth = 5;
           return Scaffold(
             appBar: AppBar(title: Text('Tasks (${snapshot.data!.length})')),
             drawer: const NavDrawer(),
@@ -98,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               trailing: Wrap(children: [
                 IconButton(
-                  constraints: const BoxConstraints(maxWidth: 40),
+                  constraints: const BoxConstraints(maxWidth: maxWidth),
                   icon: const Icon(Icons.copy),
                   onPressed: () {
                     debugPrint("Copy");
@@ -111,7 +112,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 IconButton(
-                  constraints: const BoxConstraints(maxWidth: 40),
+                  constraints: const BoxConstraints(maxWidth: maxWidth),
+                  icon: const Icon(Icons.check),
+                  color: Colors.green,
+                  onPressed: null,
+                ),
+                IconButton(
+                  constraints: const BoxConstraints(maxWidth: maxWidth),
                   icon: const Icon(Icons.delete),
                   color: Colors.red,
                   onPressed: () async {
