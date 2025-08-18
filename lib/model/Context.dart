@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Context {
+  int id;
   String name;
   Icon? icon;
-  Context(this.name, this.icon);
+  Context(this.name, {this.icon, this.id = 0});
 
   static Context byName(String name) {
     Context c = contexts[0];
@@ -14,20 +15,22 @@ class Context {
     }
     return c; // At this point it'll be the last one
   }
+
+
 }
 
 List<Context> contexts = [
-  Context("Home", Icon(Icons.home)),
-  Context("Work", Icon(Icons.business)),
-  Context("Phone",Icon(Icons.phone)),
-  Context("Email",Icon(Icons.email_rounded)),
-  Context("Medical",Icon(Icons.medical_information)),
-  Context("Model RR",Icon(Icons.directions_transit)),
-  Context("3D Printing", null),
-  Context("Development",Icon(Icons.computer_rounded)),
-  Context("Writing", null),
-  Context("SysAdmin", null),
-  Context('Default', null),
+  Context("Home", icon: Icon(Icons.home)),
+  Context("Work", icon: Icon(Icons.business)),
+  Context("Phone",icon: Icon(Icons.phone)),
+  Context("Email",icon: Icon(Icons.email_rounded)),
+  Context("Medical",icon: Icon(Icons.medical_information)),
+  Context("Model RR",icon: Icon(Icons.directions_transit)),
+  Context("3D Printing"),
+  Context("Development",icon: Icon(Icons.computer_rounded)),
+  Context("Writing"),
+  Context("SysAdmin"),
+  Context('Default'),
 ];
 
 

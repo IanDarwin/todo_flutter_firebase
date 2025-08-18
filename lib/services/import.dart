@@ -1,4 +1,3 @@
-
 import '../model/task.dart';
 
 /// Code to import plain-text ToDo files into our Todo model.
@@ -26,7 +25,7 @@ class Import {
 		RegExpMatch? m = regex.firstMatch(str);
 
 		if (m == null) {
-			throw Exception("** ERROR: ${str} didn't parse");
+			throw Exception("** ERROR: $str didn't parse");
 		}
 		Task t = Task("");
 			String? completed = m.group(GROUP_COMPLETED);
@@ -35,7 +34,7 @@ class Import {
 			}
 			String? prio = m.group(GROUP_PRIO);
 			if (prio != null) {
-				if (prio!.startsWith("(")) {
+				if (prio.startsWith("(")) {
 					switch (prio[1]) {
 						case 'A':
 							t.priority = 5;

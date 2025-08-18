@@ -1,36 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// A simple model class for a Category, assuming each document has a 'name' field.
-class Category {
-  final String id;
-  final String name;
-
-  Category({required this.id, required this.name});
-}
+import 'model/Context.dart';
 
 // The main widget to display and manage the category list.
 // It requires an instance of FirebaseFirestore and the Firestore collection path.
-class CategoryListScreen extends StatefulWidget {
+class ContextListScreen extends StatefulWidget {
   final FirebaseFirestore firestore;
-  final String collectionPath;
+  final String collectionPath = 'categories';
 
-  const CategoryListScreen({
-    Key? key,
-    required this.firestore,
-    this.collectionPath = 'categories', // Default to 'categories' collection
-  }) : super(key: key);
+  const ContextListScreen(this.firestore, { super.key });
 
   @override
-  _CategoryListScreenState createState() => _CategoryListScreenState();
+  _ContextListScreenState createState() => _ContextListScreenState();
 }
 
-class _CategoryListScreenState extends State<CategoryListScreen> {
+class _ContextListScreenState extends State<ContextListScreen> {
   // A controller for the text field in dialogs.
   final TextEditingController _textEditingController = TextEditingController();
 
   // Displays a dialog for adding or renaming a category.
-  Future<void> _showCategoryDialog({
+  Future<void> _showContextDialog({
     String? categoryId,
     String? initialName,
   }) async {
@@ -41,10 +31,10 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(initialName == null ? 'Add New Category' : 'Rename Category'),
+          title: Text(initialName == null ? 'Add New Context' : 'Rename Context'),
           content: TextField(
             controller: _textEditingController,
-            decoration: const InputDecoration(labelText: 'Category Name'),
+            decoration: const InputDecoration(labelText: 'Context Name'),
             autofocus: true,
           ),
           actions: [
@@ -57,9 +47,9 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 final newName = _textEditingController.text.trim();
                 if (newName.isNotEmpty) {
                   if (categoryId == null) {
-                    _addCategory(newName);
+                    _addContext(newName);
                   } else {
-                    _renameCategory(categoryId, newName);
+                    _renameContext(categoryId, newName);
                   }
                   Navigator.pop(context);
                 }
@@ -73,7 +63,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   }
 
   // Adds a new category document to Firestore.
-  Future<void> _addCategory(String name) async {
+  Future<void> _addContext(String name) async {
     try {
       await widget.firestore.collection(widget.collectionPath).add({
         'name': name,
@@ -85,7 +75,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   }
 
   // Renames an existing category document in Firestore.
-  Future<void> _renameCategory(String id, String newName) async {
+  Future<void> _renameContext(String id, String newName) async {
     try {
       await widget.firestore.collection(widget.collectionPath).doc(id).update({
         'name': newName,
@@ -97,7 +87,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   }
 
   // Deletes a category document from Firestore.
-  Future<void> _deleteCategory(String id) async {
+  Future<void> _deleteContext(String id) async {
     try {
       await widget.firestore.collection(widget.collectionPath).doc(id).delete();
     } catch (e) {
@@ -152,34 +142,34 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
 
           final categories = snapshot.data!.docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            return Category(
-              id: doc.id,
-              name: data['name'] ?? 'Untitled Category',
+            return Context(
+              data['name'] ?? 'Untitled Context',
+              id: int.parse(doc.id),
             );
           }).toList();
 
           return ListView.builder(
             itemCount: categories.length,
             itemBuilder: (context, index) {
-              final category = categories[index];
+              final context = categories[index];
               return Card(
                 elevation: 2.0,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 child: ListTile(
-                  title: Text(category.name),
+                  title: Text(context.name),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
                         icon: const Icon(Icons.edit, color: Colors.blue),
-                        onPressed: () => _showCategoryDialog(
-                          categoryId: category.id,
-                          initialName: category.name,
+                        onPressed: () => _showContextDialog(
+                          categoryId: context.id.toString(),
+                          initialName: context.name,
                         ),
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _deleteCategory(category.id),
+                        onPressed: () => _deleteContext(context.id.toString()),
                       ),
                     ],
                   ),
@@ -190,7 +180,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showCategoryDialog(),
+        onPressed: () => _showContextDialog(),
         child: const Icon(Icons.add),
       ),
     );

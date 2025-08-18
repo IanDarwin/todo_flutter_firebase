@@ -49,10 +49,10 @@ class NavDrawer extends StatelessWidget {
               title: const Text('Settings'),
               onTap: () => {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const SettingsPage()))
+                    builder: (context) => SettingsPage()))
               },
             ),
-			const AboutListTile(
+			      const AboutListTile(
               icon: Icon(Icons.info),
               applicationName:  'TodoFlutterFirebase',
               aboutBoxChildren: [
