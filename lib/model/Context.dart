@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Context {
-  int id;
+  String id;
   String name;
   Icon? icon;
   Context(this.name, {this.icon, this.id = 0});
@@ -20,7 +20,7 @@ class Context {
     return Context(
       id: json['id'] as String,
       name: json['name'] as String,
-      icon: json['icon'] as int,
+      icon: json['icon'] as Icon,
     );
   }
 
