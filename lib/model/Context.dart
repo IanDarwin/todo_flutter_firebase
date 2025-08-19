@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Context {
-  int id;
+  String id;
   String name;
   Icon? icon;
   Context(this.name, {this.icon, this.id = 0});
@@ -16,7 +16,21 @@ class Context {
     return c; // At this point it'll be the last one
   }
 
+  factory Context.fromJson(Map<String, dynamic> json) {
+    return Context(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      icon: json['icon'] as Icon,
+    );
+  }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'icon': icon,
+    };
+  }
 }
 
 List<Context> contexts = [
