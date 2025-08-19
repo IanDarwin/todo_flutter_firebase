@@ -5,6 +5,7 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'context_list_screen.dart';
 
 /// Activity for Settings.
+/// @Author Ian Darwin, hacked from my iCheckIn app's Settings page.
 ///
 class SettingsPage extends StatefulWidget {
 

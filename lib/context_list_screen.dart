@@ -5,6 +5,8 @@ import 'model/Context.dart';
 
 // The main widget to display and manage the category list.
 // It requires an instance of FirebaseFirestore and the Firestore collection path.
+// @author Google Gemini, prompted by Ian Darwin
+//
 class ContextListScreen extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String collectionPath = 'contexts';
