@@ -16,7 +16,21 @@ class Context {
     return c; // At this point it'll be the last one
   }
 
+  factory Context.fromJson(Map<String, dynamic> json) {
+    return Context(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      icon: json['icon'] as int,
+    );
+  }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'icon': icon,
+    };
+  }
 }
 
 List<Context> contexts = [
