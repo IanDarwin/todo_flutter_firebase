@@ -4,7 +4,7 @@ class Context {
   String id;
   String name;
   Icon? icon;
-  Context(this.name, {this.icon, this.id = 0});
+  Context({required this.name, this.icon, this.id = ""});
 
   static Context byName(String name) {
     Context c = contexts[0];
@@ -34,17 +34,17 @@ class Context {
 }
 
 List<Context> contexts = [
-  Context("Home", icon: Icon(Icons.home)),
-  Context("Work", icon: Icon(Icons.business)),
-  Context("Phone",icon: Icon(Icons.phone)),
-  Context("Email",icon: Icon(Icons.email_rounded)),
-  Context("Medical",icon: Icon(Icons.medical_information)),
-  Context("Model RR",icon: Icon(Icons.directions_transit)),
-  Context("3D Printing"),
-  Context("Development",icon: Icon(Icons.computer_rounded)),
-  Context("Writing"),
-  Context("SysAdmin"),
-  Context('Default'),
+  Context(name: "Home", icon: Icon(Icons.home)),
+  Context(name: "Work", icon: Icon(Icons.business)),
+  Context(name: "Phone",icon: Icon(Icons.phone)),
+  Context(name: "Email",icon: Icon(Icons.email_rounded)),
+  Context(name: "Medical",icon: Icon(Icons.medical_information)),
+  Context(name: "Model RR",icon: Icon(Icons.directions_transit)),
+  Context(name: "3D Printing"),
+  Context(name: "Development",icon: Icon(Icons.computer_rounded)),
+  Context(name: "Writing"),
+  Context(name: "SysAdmin"),
+  Context(name: 'Default'),
 ];
 
 

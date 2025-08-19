@@ -7,7 +7,7 @@ import 'model/Context.dart';
 // It requires an instance of FirebaseFirestore and the Firestore collection path.
 class ContextListScreen extends StatefulWidget {
   final FirebaseFirestore firestore;
-  final String collectionPath = 'categories';
+  final String collectionPath = 'contexts';
 
   const ContextListScreen(this.firestore, { super.key });
 
@@ -123,7 +123,7 @@ class _ContextListScreenState extends State<ContextListScreen> {
     // Use a StreamBuilder to listen for real-time updates from Firestore.
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: const Text('Contexts'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: widget.firestore
@@ -137,21 +137,21 @@ class _ContextListScreenState extends State<ContextListScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No categories found.'));
+            return const Center(child: Text('No Contexts found. Please add yours.'));
           }
 
-          final categories = snapshot.data!.docs.map((doc) {
+          final contexts = snapshot.data!.docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
             return Context(
-              data['name'] ?? 'Untitled Context',
-              id: int.parse(doc.id),
+              name: data['name'] ?? 'Untitled Context',
+              id: doc.id,
             );
           }).toList();
 
           return ListView.builder(
-            itemCount: categories.length,
+            itemCount: contexts.length,
             itemBuilder: (context, index) {
-              final context = categories[index];
+              final context = contexts[index];
               return Card(
                 elevation: 2.0,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
