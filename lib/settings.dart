@@ -20,7 +20,7 @@ class SettingsState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
 
-    return SettingsScreen(title: "iCheckIn Settings",
+    return SettingsScreen(title: "Todo List Settings",
         children: <Widget>[
           SettingsGroup(title: "Authentication",
               children: [
@@ -29,7 +29,7 @@ class SettingsState extends State<SettingsPage> {
           SettingsGroup(
             title: "Personalization",
             children: [
-              ElevatedButton(
+              TextButton(
                   onPressed: () => {
                     Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ContextListScreen(FirebaseFirestore.instance)))
