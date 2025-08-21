@@ -9,13 +9,18 @@ import 'package:todo_flutter_firebase/edit_page.dart';
 import 'package:todo_flutter_firebase/firebase_options.dart';
 import 'package:todo_flutter_firebase/nav_drawer.dart';
 
+import 'constants.dart';
 import 'model/Context.dart';
+
+late Firebase todoDB,
+  contextDB;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 

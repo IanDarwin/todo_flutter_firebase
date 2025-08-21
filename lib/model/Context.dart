@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Context {
@@ -6,7 +7,7 @@ class Context {
   Icon? icon;
   Context({required this.name, this.icon, this.id = ""});
 
-  static Context byName(String name) {
+  static Context byName(String name, List<Context> contexts) {
     Context c = contexts[0];
     for (c in contexts) {
       if (c.name == name) {
@@ -30,6 +31,25 @@ class Context {
       'name': name,
       'icon': icon,
     };
+  }
+
+  // Factory constructor to deserialize a Firestore document into a Context object.
+  // We use QueryDocumentSnapshot from the Firestore stream.
+  factory Context.fromFirestore(QueryDocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return Context(
+      id: doc.id,
+      name: data['name'] as String,
+      // Check if 'iconCodePoint' exists before trying to access it
+      icon: data.containsKey('iconCodePoint')
+          ? Icon(
+        IconData(
+          data['iconCodePoint'] as int,
+          fontFamily: 'MaterialIcons',
+        ),
+      )
+          : null,
+    );
   }
 }
 

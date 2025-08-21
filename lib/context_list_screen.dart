@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'constants.dart';
 import 'model/Context.dart';
 
 // The main widget to display and manage the category list.
 // It requires an instance of FirebaseFirestore and the Firestore collection path.
 class ContextListScreen extends StatefulWidget {
   final FirebaseFirestore firestore;
-  final String collectionPath = 'contexts';
 
   const ContextListScreen(this.firestore, { super.key });
 
@@ -65,7 +65,7 @@ class _ContextListScreenState extends State<ContextListScreen> {
   // Adds a new category document to Firestore.
   Future<void> _addContext(String name) async {
     try {
-      await widget.firestore.collection(widget.collectionPath).add({
+      await widget.firestore.collection(Constants.firebase_contexts_collectionPath).add({
         'name': name,
         'createdAt': FieldValue.serverTimestamp(),
       });
@@ -77,7 +77,7 @@ class _ContextListScreenState extends State<ContextListScreen> {
   // Renames an existing category document in Firestore.
   Future<void> _renameContext(String id, String newName) async {
     try {
-      await widget.firestore.collection(widget.collectionPath).doc(id).update({
+      await widget.firestore.collection(Constants.firebase_contexts_collectionPath).doc(id).update({
         'name': newName,
         'updatedAt': FieldValue.serverTimestamp(),
       });
@@ -89,7 +89,7 @@ class _ContextListScreenState extends State<ContextListScreen> {
   // Deletes a category document from Firestore.
   Future<void> _deleteContext(String id) async {
     try {
-      await widget.firestore.collection(widget.collectionPath).doc(id).delete();
+      await widget.firestore.collection(Constants.firebase_contexts_collectionPath).doc(id).delete();
     } catch (e) {
       _showErrorDialog('Failed to delete category: $e');
     }
@@ -127,7 +127,7 @@ class _ContextListScreenState extends State<ContextListScreen> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: widget.firestore
-            .collection(widget.collectionPath)
+            .collection(Constants.firebase_contexts_collectionPath)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

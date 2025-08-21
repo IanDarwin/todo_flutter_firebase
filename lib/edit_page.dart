@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
 import 'model/Context.dart';
 import 'model/task.dart';
 
@@ -22,7 +23,7 @@ final priorities = {
 class EditPageState extends State<EditPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late FocusNode _focusNode;
-
+  Context? _selectedContext;
   EditPageState();
 
   @override
@@ -36,7 +37,7 @@ class EditPageState extends State<EditPage> {
         padding: const EdgeInsets.all(10),
         child: Form(
           key: _formKey,
-          child: Column(
+            child: Column(
             children: <Widget>[
               Row(children: [
                 Expanded(child:TextFormField(maxLength: 256,
@@ -85,21 +86,69 @@ class EditPageState extends State<EditPage> {
                 validator: (s) => s == null ? "Priority required" : null,
               ),
               const SizedBox(width: 100, height: 15),
-              DropdownButtonFormField<Context>(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Context",
-                ),
-                isExpanded: true,
-                items: contexts.map((Context cat) {
-                  return DropdownMenuItem(
-                    value: cat,
-                    child: Text(cat.name),
-                  );
-                }).toList(),
-                value: Context.byName(widget.task.context??'Default'),
-                onChanged: (value) => { widget.task.context = value!.name },
-                validator: (s) => s == null || s == 'Required' ? "Context required" : null,
+              StreamBuilder<QuerySnapshot>(
+                // The stream is created by getting a snapshot of the 'contexts' collection.
+                // This will emit a new QuerySnapshot object every time the collection changes.
+                stream: FirebaseFirestore.instance.collection(Constants.firebase_contexts_collectionPath).snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  // Check for errors
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong: ${snapshot.error}');
+                  }
+
+                  // Show a loading indicator while waiting for data
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+
+                  // If the snapshot has data, process it and build the dropdown
+                  if (snapshot.hasData) {
+                    // Convert the QuerySnapshot into a list of Context objects,
+                    // using .map() and Context's fromFirestore factory constructor.
+                    List<Context> contexts = snapshot.data!.docs
+                        .map((doc) => Context.fromFirestore(doc))
+                        .toList();
+
+                    // If the list of contexts is empty, show a message
+                    if (contexts.isEmpty) {
+                      return const Text('No contexts found. Go ahead and add some!');
+                    }
+
+                    // Build the DropdownButton of Contexts
+                    return DropdownButtonFormField<Context>(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Context",
+                        ),
+                      isExpanded: true,
+                      // If there's no selected context, default to the first one in the list
+                      // initialValue: _selectedContext ?? contexts[0],
+                      initialValue: Context.byName(widget.task.context??'Default', contexts),
+                      // When a new item is selected, update the state
+                      onChanged: (Context? newValue) {
+                        setState(() {
+                          _selectedContext = newValue; // XXX Merge these?
+                          widget.task.context = newValue!.name;
+                        });
+                      },
+                      // Generate the list of items from our contexts list
+                      items: contexts.map<DropdownMenuItem<Context>>((Context context) {
+                        return DropdownMenuItem<Context>(
+                          value: context,
+                          child: Row(
+                            children: [
+                              if (context.icon != null) context.icon!, // Display the icon if it exists
+                              if (context.icon != null) const SizedBox(width: 8),
+                              Text(context.name),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                  // Fallback case (should not be reached in most scenarios)
+                  return const Text('Loading...');
+                },
               ),
               Row(mainAxisAlignment: MainAxisAlignment.end,
                   children:[
