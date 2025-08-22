@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:todo_flutter_firebase/services/import.dart';
 import 'package:todo_flutter_firebase/settings.dart';
 
+import 'context_list_screen.dart';
 import 'model/task.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -34,6 +35,17 @@ class NavDrawer extends StatelessWidget {
               leading: const Icon(Icons.input),
               title: const Text('Intro/Help'),
               onTap: () => {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Edit Categories'),
+              onTap: () async {
+                await Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => ContextListScreen(FirebaseFirestore.instance)
+                )
+                );
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.settings),
