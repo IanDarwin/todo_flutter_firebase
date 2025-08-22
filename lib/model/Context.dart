@@ -21,7 +21,7 @@ class Context {
     return Context(
       id: json['id'] as String,
       name: json['name'] as String,
-      icon: json['icon'] as Icon,
+      icon: IconData(json['iconCodePoint'] as int, fontFamily: 'MaterialIcons'),
     );
   }
 
@@ -29,7 +29,7 @@ class Context {
     return {
       'id': id,
       'name': name,
-      'icon': icon,
+      'iconCodePoint': icon.codePoint,
     };
   }
 
@@ -53,7 +53,17 @@ class Context {
   }
 }
 
-List<Context> contexts = [
+// To be written to the contexts DB if it is empty
+List<Context> defaultContexts = [
+  Context(name: "Home", icon: Icon(Icons.home)),
+  Context(name: "Work", icon: Icon(Icons.business)),
+  Context(name: "Phone",icon: Icon(Icons.phone)),
+  Context(name: "Email",icon: Icon(Icons.email_rounded)),
+  Context(name: 'Default'),
+];
+
+// Temporary, until the above-implied code gets written
+List<Context> Contexts = [
   Context(name: "Home", icon: Icon(Icons.home)),
   Context(name: "Work", icon: Icon(Icons.business)),
   Context(name: "Phone",icon: Icon(Icons.phone)),
@@ -66,5 +76,4 @@ List<Context> contexts = [
   Context(name: "SysAdmin"),
   Context(name: 'Default'),
 ];
-
 
